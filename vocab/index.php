@@ -65,7 +65,7 @@ $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,F
         <?php
         //hay sesion de usuario
         if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]){
-          echo HTMLmainMenu();
+          echo HTMLmainMenu(); //creates menu drop-down
         }else{//no hay session de usuario
         ?>
            <li><a href="login.php" title="<?php echo MENU_MiCuenta;?>"><?php echo MENU_MiCuenta;?></a></li>
