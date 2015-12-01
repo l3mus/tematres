@@ -533,7 +533,7 @@ function HTMLmainMenu(){
 	/*
 	* Admin menu
 	*/
-	if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
+	if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') || $_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='2'){
 		$row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.LABEL_Admin.'</a>';
 		$row.='<ul class="dropdown-menu">';
 		$row.='<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>';
