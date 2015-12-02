@@ -10,9 +10,13 @@ include("config.tematres.php");
 
 $metadata=do_meta_tag();
 
-if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]!=='1'){
+//if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]!=='1'){ //this is the original version
+//	header("Location:login.php");
+//	};
+
+if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] =='3'){ //this is modified version Dec 1 2015
 	header("Location:login.php");
-	};
+};
 
 //Acciones de gestion de usuarios
 if($_POST["userTask"]=='A'){
@@ -114,7 +118,7 @@ if(($_POST["doAdmin"]=='updateEndpointNow')){
       </ul>
       <ul class="nav navbar-nav navbar-left">
         <?php
-        //hay sesion de usuario
+        //hay sesion de usuario -> drop-down Menu
         if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]){
           echo HTMLmainMenu();
         }else{//no hay session de usuario
@@ -149,8 +153,8 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 		echo optimizarTablas();
 		};
 
-	if($_GET["user_id"]=='list'){
-		echo HTMLListaUsers();
+	if($_GET["user_id"]=='list'){ //Creates table with all the users - in the original version works only for administrators.
+		echo HTMLListaUsers();    //In the modified version works for group 1 and 2 - see this file, lines 13 - 19
 		};
 
 	if(is_numeric($_GET["user_id"])){
