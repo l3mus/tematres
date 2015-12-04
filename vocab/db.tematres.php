@@ -32,12 +32,16 @@ $DBCFG["Server"]      = "127.0.0.1";
 
 //  Nombre de la base de datos Database name
 $DBCFG["DBName"]     = "tematres";
+//$DBCFG["DBName"]     = "dimiargx_tematres";
+//$DBCFG["DBName"]     = "otomltd_unlv";
 
 //  Nombre de usuario - login
 $DBCFG["DBLogin"]    = "root";
+//$DBCFG["DBLogin"]    = "otomltd_unl_user";
 
 //  Passwords
 $DBCFG["DBPass"] = "";
+//$DBCFG["DBPass"] = "23System29"; //тази парола се ползва и за otom-ltd и за dimitar-expertise
 
 //  Prefijo para tablas # Prefix for tables
 $DBCFG["DBprefix"] = "pr_";
