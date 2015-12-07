@@ -439,7 +439,7 @@ function HTMLbodyTermino($array){
 	//term menu
 	if($_SESSION[$_SESSION["CFGURL"]][ssuser_id])
 	{
-		$body.=HTMLtermMenuX2($array,$HTMLterminos[cantRelaciones]);
+		$body.=HTMLtermMenuX2($array,$HTMLterminos[cantRelaciones]); //creates Options drop-down menu
 	}
 
 	$body.='<li><a href="#metadataTerm" data-toggle="tab">'.ucfirst(LABEL_metadatos).'</a></li>';
@@ -652,17 +652,24 @@ function HTMLtermMenuX2($array_tema,$relacionesTermino){
 	};
 
 
-	$row.='      <li><a title="'.MENU_EditT.'" href="index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>';
+	//Edit term row
+	if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') || ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='2')){
+		$row.='<li><a title="'.MENU_EditT.'" href="index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>';
+	}
 
 	//If the term are not accepted and do not have Add-menu => add notes options here!
 
+	//Notes editor row
 	if($array_tema["estado_id"]!=="13"){
 		$row.='     <li><a title="'.ucfirst(LABEL_EditorNota).'" href="index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_EditorNota).'</a></li>';
 		}
 
 	$row.=$link_subordinar;
 
+	//Change term status row
+if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') || ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='2')) {
 	$row.=$link_estado;
+}
 
 	if($isValidTerm){
 		if($array_tema["isMetaTerm"]==1)
@@ -676,11 +683,16 @@ function HTMLtermMenuX2($array_tema,$relacionesTermino){
 			$task_meta_term=1;
 		}
 
-		$row.='<li><a title="'.$label_task_meta_term.'" href="index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>';
+		//Is a meta-term row
+		if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') || ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='2')) {
+			$row.='<li><a title="'.$label_task_meta_term.'" href="index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>';
+		}
 	}
 
-
+	//Delete term
+if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1') || ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='2')) {
 	$row.='<li><a class="btn btn-danger" title="'.LABEL_EliminarTE.'" href="javascript:expandLink(\'borrart\')">'.ucfirst(LABEL_EliminarTE).'</a></li>';
+}
 	$row.='</ul>';
 
 	$row.='</li><!-- end menu -->';
