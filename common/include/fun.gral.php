@@ -214,16 +214,15 @@ function doSelectForm($valores,$valor_selec)
   for($i=0; $i<sizeof($valores);++$i){
 	 $valor=explode("#",$valores[$i]);
 	 if($valor[0]){
-		if($valor[0]==$valor_selec){
-				$selec_values.='<option value="'.$valor[0].'" selected="selected">'.$valor[1].'</option>'."\n\r";
-				}
-				else{
-				$selec_values.='<option value="'.$valor[0].'">'.$valor[1].'</option>'."\n\r";
-		};
-	   };
-	 };
+         if($valor[1] == 'exactMatch'){
+             $selec_values .= '<option value="'.$valor[0].'" selected="selected">'.$valor[1].'</option>'."\n\r";
+         }else{
+             $selec_values .= '<option value="'.$valor[0].'">'.$valor[1].'</option>'."\n\r";
+         }
+	   }
+	 }
   return $selec_values;
-};
+}
 
 
 #
