@@ -77,7 +77,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_id])
 		echo HTMLformURI4term($metadata["arraydata"]);
 		break;
 
-		default:
+		default: //this creates Options drop-down for Candidate terms
 		echo HTMLbodyTermino($metadata["arraydata"]);
 	}
 
