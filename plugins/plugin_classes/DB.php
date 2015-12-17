@@ -1,5 +1,5 @@
 <?php
-namespace Plugins;
+namespace Plugin_classes;
 class DB{
     private static $instance = null;
 

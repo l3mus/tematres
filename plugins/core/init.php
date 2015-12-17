@@ -10,8 +10,22 @@ $GLOBALS['config'] = array(
     )
 );
 
-spl_autoload_register(function($class){
-    require_once '../classes/'.$class.'.php'; //the path depends on the calling file location - in this case user_menu_test/prototype.php
+//spl_autoload_register(function($class){
+//    require_once '../Plugin_classes/'.$class.'.php'; //the path depends on the calling file location - in this case user_menu_test/prototype.php
+//});
+
+spl_autoload_register(function($className){
+    $className = ltrim($className, '\\');
+    $fileName = '';
+    $namespace = '';
+    if($lastNsPos = strrpos($className, '\\')){ //find the last occurrence
+        $namespace = substr($className, 0, $lastNsPos);
+        $className = substr($className, $lastNsPos + 1);
+        $fileName = str_replace('\\', '/', $namespace) . '/';
+    }
+    $fileName .= str_replace('_', '/', $className) . '.php';
+    require_once $fileName;
+    //echo $fileName;
 });
 
-require_once '../functions/sanitize.php';
+require_once 'functions/sanitize.php';

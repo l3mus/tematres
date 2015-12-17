@@ -1,5 +1,5 @@
 <?php
-namespace Plugins;
+namespace Plugin_classes;
 class Config{
     public static  function get($path = null){ //Needs check if $path exists
         if($path){
