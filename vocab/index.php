@@ -16,11 +16,11 @@ if(($_GET[mod]=='csv') && (substr($_GET[task],0,3)=='csv') && ($_SESSION[$_SESSI
 $search_string ='';
 $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,FORM_LABEL_buscar)) : '';
 
-require_once '../plugins/core/init.php';
+require_once '..'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'init.php';
 use \Plugin_classes\DB as DBase;
 use \Plugin_classes\Config as Config;
-require_once '../plugins/Plugin_classes/Config.php';
-require_once '../plugins/Plugin_classes/DB.php';
+//require_once '../plugins/Plugin_classes/Config.php';
+//require_once '../plugins/Plugin_classes/DB.php';
 ?>
 
 <!DOCTYPE html>
@@ -33,6 +33,7 @@ require_once '../plugins/Plugin_classes/DB.php';
    <link href="<?php echo T3_WEBPATH;?>bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
 	 <link href="<?php echo T3_WEBPATH;?>css/t3style.css" rel="stylesheet">
+      <link href="../plugins/css/userMenu.css" rel="stylesheet" media="all"/>
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -46,26 +47,31 @@ require_once '../plugins/Plugin_classes/DB.php';
   <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="shortcut icon" />
 </head>
  <body>
-<?php
+<div>
+ <?php
 
+    $buttonLabel = 'Login';
+    $user = DBase::getInstance()->query("select nombres, apellido from pr_usuario where id = " . $_SESSION['http://tematres.library.unlv.edu/vocab/']['ssuser_id']);
+    if($user->rowsCount() === 1){
+        $userName = '';
 
-    $user = DBase::getInstance()->query("select nombres, apellido from pr_usuario where id = 11");
-    if(!$user->error()){
-        if($user->rowsCount()){
-            echo 'User exists<br>';
-        }else{
-            echo 'No such user<br>';
+        foreach($user->results() as $row){
+            foreach($row as $item=>$value){
+                $userName .= $value . ' ';
+            }
         }
-    }else{
-        echo 'Wrong query<br>';
     }
-    foreach($user->results() as $row){
-        foreach($row as $item=>$value){
-            echo $value . ' ';
-        }
-}
-//echo 'Test !*!';
+     if(isset($_SESSION['http://tematres.library.unlv.edu/vocab/']['ssuser_id'])){
+         $buttonLabel = $userName;
+     }
+
+//    if(isset($_SESSION['http://tematres.library.unlv.edu/vocab/']['ssuser_id'])){
+//        $buttonLabel = 'Logout';
+//    }
+    //echo '<button>'.$buttonLabel.'</button>';
+
 ?>
+</div>
 <div class="container">
   <div class="header">
       <h1><a href="index.php" title="<?php echo $_SESSION[CFGTitulo].': '.MENU_ListaSis;?> "><?php echo $_SESSION[CFGTitulo];?></a></h1>
@@ -87,6 +93,7 @@ require_once '../plugins/Plugin_classes/DB.php';
         <li><a title="<?php echo LABEL_busqueda;?>" href="index.php?xsearch=1"><?php echo ucfirst(LABEL_BusquedaAvanzada);?></a></li>
 
         <li><a title="<?php echo MENU_Sobre;?>" href="sobre.php"><?php echo MENU_Sobre;?></a></li>
+        <li style="position: relative;"><a href="#" style="color: yellow;"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo $buttonLabel; ?></a><div class="user-menu"></div></li>
       </ul>
       <ul class="nav navbar-nav navbar-left">
         <?php
@@ -110,7 +117,6 @@ require_once '../plugins/Plugin_classes/DB.php';
       </form>
 
     </div>
-
   </div>
 </nav>
 
