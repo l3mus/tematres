@@ -15,7 +15,14 @@ if(($_GET[mod]=='csv') && (substr($_GET[task],0,3)=='csv') && ($_SESSION[$_SESSI
 }
 $search_string ='';
 $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,FORM_LABEL_buscar)) : '';
+
+require_once '../plugins/core/init.php';
+use \Plugin_classes\DB as DBase;
+use \Plugin_classes\Config as Config;
+require_once '../plugins/Plugin_classes/Config.php';
+require_once '../plugins/Plugin_classes/DB.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
   <head>
@@ -39,6 +46,26 @@ $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,F
   <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="shortcut icon" />
 </head>
  <body>
+<?php
+
+
+    $user = DBase::getInstance()->query("select nombres, apellido from pr_usuario where id = 11");
+    if(!$user->error()){
+        if($user->rowsCount()){
+            echo 'User exists<br>';
+        }else{
+            echo 'No such user<br>';
+        }
+    }else{
+        echo 'Wrong query<br>';
+    }
+    foreach($user->results() as $row){
+        foreach($row as $item=>$value){
+            echo $value . ' ';
+        }
+}
+//echo 'Test !*!';
+?>
 <div class="container">
   <div class="header">
       <h1><a href="index.php" title="<?php echo $_SESSION[CFGTitulo].': '.MENU_ListaSis;?> "><?php echo $_SESSION[CFGTitulo];?></a></h1>
