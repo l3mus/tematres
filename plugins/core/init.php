@@ -10,9 +10,10 @@ $GLOBALS['config'] = array(
     )
 );
 
-//spl_autoload_register(function($class){
-//    require_once '../plugins/Plugin_classes/'.$class.'.php'; //the path depends on the calling file location - in this case user_menu_test/prototype.php
-//});
+spl_autoload_register(function($class){
+    //require_once '../plugins/Plugin_classes/'.$class.'.php'; //the path depends on the calling file location - in this case user_menu_test/prototype.php
+    require_once '..'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$class.'.php';
+}, $throw = true, $prepend = true);
 
 //spl_autoload_register(function($className){
 //    $className = ltrim($className, '\\');
