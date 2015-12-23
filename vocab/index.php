@@ -45,6 +45,11 @@ use \Plugin_classes\Config as Config;
   <?php echo $metadata["metadata"]; ?>
   <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="icon" />
   <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="shortcut icon" />
+<!--      <script src="../common/jq/lib/jquery-2.1.4.min.js"></script>-->
+      <script src="../plugins/js/plugins.js"></script>
+      <script src="../plugins/js/userMenu.js"></script>
+
+
 </head>
  <body>
 <div>
@@ -64,13 +69,7 @@ use \Plugin_classes\Config as Config;
      if(isset($_SESSION['http://tematres.library.unlv.edu/vocab/']['ssuser_id'])){
          $buttonLabel = $userName;
      }
-
-//    if(isset($_SESSION['http://tematres.library.unlv.edu/vocab/']['ssuser_id'])){
-//        $buttonLabel = 'Logout';
-//    }
-    //echo '<button>'.$buttonLabel.'</button>';
-
-?>
+ ?>
 </div>
 <div class="container">
   <div class="header">
@@ -93,13 +92,13 @@ use \Plugin_classes\Config as Config;
         <li><a title="<?php echo LABEL_busqueda;?>" href="index.php?xsearch=1"><?php echo ucfirst(LABEL_BusquedaAvanzada);?></a></li>
 
         <li><a title="<?php echo MENU_Sobre;?>" href="sobre.php"><?php echo MENU_Sobre;?></a></li>
-        <li style="position: relative;"><a href="#" style="color: yellow;"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo $buttonLabel; ?></a><div class="user-menu"></div></li>
+        <li style="position: relative;"><a id="user_menu_link" href="#" style="color: yellow;"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo $buttonLabel; ?></a><div id="user-menu" class="user-menu"></div></li>
       </ul>
       <ul class="nav navbar-nav navbar-left">
         <?php
         //hay sesion de usuario
         if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]){
-          echo HTMLmainMenu(); //creates menu drop-down
+          echo HTMLmainMenu(); //creates Menu drop-down
         }else{//no hay session de usuario
         ?>
            <li><a href="login.php" title="<?php echo MENU_MiCuenta;?>"><?php echo MENU_MiCuenta;?></a></li>
@@ -206,5 +205,9 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0)
   $('.dropdown-submenu > a').submenupicker();
 
         </script>
+ <script type="text/javascript">
+     var is_logged_in = '<?php echo $buttonLabel; ?>';
+     plugins.initModule($('#user-menu'), $('#user_menu_link'), is_logged_in);
+ </script>
     </body>
 </html>
