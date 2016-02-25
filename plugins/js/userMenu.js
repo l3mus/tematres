@@ -26,6 +26,7 @@ plugins.userMenu = (function(){
                         '</ul>' +
                     '</form></div>',
                      logged_html : '<div style="color:#000;">Logged in already!</div>',
+                     logout_html : '',
                      menu_extend_time : 1500,
                      menu_retract_time : 500,
                      menu_ht_extended : 180,
