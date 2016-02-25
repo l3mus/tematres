@@ -131,14 +131,16 @@ $metadata=do_meta_tag();
         <?php
         //hay sesion de usuario
         if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]){
-          echo HTMLmainMenu();
+          echo HTMLmainMenu(); // Menu drop down
         }else{//no hay session de usuario
+			//this is My Account button but only on login.php
         ?>
            <li><a href="login.php" title="<?php echo MENU_MiCuenta;?>"><?php echo MENU_MiCuenta;?></a></li>
         <?php
         };
         ?>
       </ul>
+	  <!--This is the search field in the navigation bar-->
       <form method="get" id="simple-search" name="simple-search" action="index.php" class="navbar-form">
         <div class="form-group" style="display:inline;">
           <div class="fill col2">
@@ -157,13 +159,14 @@ $metadata=do_meta_tag();
 <div class="container">
 
 <?php
+//From here till the closing php tag - Login forms
             if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
             require_once(T3_ABSPATH . 'common/include/inc.misTerminos.php');
             }else{
 
 	if($_POST["task"]=='user_recovery')
 	{
-		$task_result=recovery($_POST["id_correo_electronico_recovery"]);
+		$task_result=recovery($_POST["id_correo_electronico_recovery"]); //username
 	}
 
 
@@ -178,7 +181,7 @@ $metadata=do_meta_tag();
 		{
 			$task_result=array("msg"=>t3_messages('no_user'));
 		}
-		echo HTMLformLogin($task_result);
+		echo HTMLformLogin($task_result); //Login form
 	};
     }// if session
 ?>
@@ -272,7 +275,7 @@ function check_password_reset_key($key, $login) {
 	$key = preg_replace('/[^a-z0-9]/i', '', $key);
 
 	if ( empty( $key ) || !is_string( $key ) )
-		return t3_messages('invalid_key');
+		return t3_messages('invalid_key'); //this function deals error with messages
 
 	if ( empty($login) || !is_string($login) )
 		return t3_messages('invalid_key');
