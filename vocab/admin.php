@@ -78,6 +78,7 @@ if(($_POST["doAdmin"]=='updateEndpointNow')){
    <link href="<?php echo T3_WEBPATH;?>bootstrap/css/bootstrap.min.css" rel="stylesheet">
    <link href="<?php echo T3_WEBPATH;?>bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
 	 <link href="<?php echo T3_WEBPATH;?>css/t3style.css" rel="stylesheet">
+      <link href="../plugins/css/userMenu.css" rel="stylesheet" media="all"/>
 
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -92,8 +93,18 @@ if(($_POST["doAdmin"]=='updateEndpointNow')){
 
 	  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script src="../plugins/js/plugins.js"></script>
+      <script src="../plugins/js/userMenu.js"></script>
 </head>
  <body>
+<?php
+//Checks if there is logged in user, takes user's name from the $_SESSION and puts it in the Login section
+$buttonLabel = 'Login';
+
+if(isset($_SESSION[$_SESSION["CFGURL"]][ssuser_id]) && isset($_SESSION[$_SESSION["CFGURL"]][ssuser_nombre])){
+	$buttonLabel = $_SESSION[$_SESSION["CFGURL"]][ssuser_nombre];
+}
+ ?>
 <div class="container">
   <div class="header">
       <h1><a href="index.php" title="<?php echo $_SESSION[CFGTitulo].': '.MENU_ListaSis;?> "><?php echo $_SESSION[CFGTitulo];?></a></h1>
@@ -115,6 +126,11 @@ if(($_POST["doAdmin"]=='updateEndpointNow')){
         <li><a title="<?php echo LABEL_busqueda;?>" href="index.php?xsearch=1"><?php echo ucfirst(LABEL_BusquedaAvanzada);?></a></li>
 
         <li><a title="<?php echo MENU_Sobre;?>" href="sobre.php"><?php echo MENU_Sobre;?></a></li>
+		<!--Login section, not part of the original code-->
+		<li style="position: relative;">
+			<a id="user_menu_link" href="#" style="color: yellow;"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo $buttonLabel; ?></a>
+			<div id="user-menu" class="user-menu"></div>
+		</li>
       </ul>
       <ul class="nav navbar-nav navbar-left">
         <?php
@@ -326,5 +342,12 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0)
   $("#myTermTab").tabCollapse();
   $('.dropdown-submenu > a').submenupicker();
         </script>
+<script type="text/javascript">
+    //Login JS code, not part of the original code
+    //added  Jan 2016
+    //created by Dimitar Georgiev: dimitar.georgiev.du@gmail.com
+    var is_logged_in = '<?php echo $buttonLabel; ?>';
+    plugins.initModule($('#user-menu'), $('#user_menu_link'), is_logged_in);
+</script>
     </body>
 </html>
