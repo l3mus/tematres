@@ -22,10 +22,12 @@ plugins.userMenu = (function(){
     '                               </div>' +
     '                           </div>' +
     '                       </li>' +
-                            '<li><div class="flex-row login-submit"><input id="login-submit" type="submit" value="Login"></div></li>' +
+                            '<li><div class="flex-row login-submit"><button id="login-submit" type="submit"><i class="glyphicon glyphicon-log-in"></i>&nbsp;&nbsp;Login</button></div></li>' +
+                            //'<li><div class="flex-row login-submit"><input id="login-submit" type="submit" value="Login"></div></li>' +
                         '</ul>' +
                     '</form></div>',
-                     logged_html : '<div style="color:#000;">Logged in already!</div>',
+                     logged_html : '<div class="flex-row login-submit"><button id="account-button"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;My Account</button></div>' +
+                                   '<div class="flex-row login-submit"><button id="logout-button"><i class="glyphicon glyphicon-log-out"></i>&nbsp;&nbsp;Logout</button></div>',
                      logout_html : '',
                      menu_extend_time : 800,
                      menu_retract_time : 500,
@@ -82,26 +84,38 @@ plugins.userMenu = (function(){
     };
     var login = function(){
         $(document).on("submit", "#loginForm", function(){
-            //alert('loginForm Test!@!');
-            //var sss = $("#id_password").val();
-            //alert(sss);
+            //Using done() instead of success: function(result){} because success is deprecated
             $.ajax({
                 type: "POST",
                 url: "../plugins/tempFunctionality/account.php",
+                cache: false,
                 data: {
                     username: $("#username").val(),
                     password: $("#password").val()
                     //id_correo_electronico: $("#id_correo_electronico").val(),
                     //id_password: $("#id_password").val()
-                },
-                success: function(response){
-                    alert(response);
-                    //if(response === 'redirect'){
-                    //    window.location.href = "index.php";
-                    //}
-                }
+                }}).done(function(msg){
+                    //alert(msg);
+                    if($.trim(msg) === "SuccessfulLogin"){ //Without trim() comparison fails
+                        //alert("OK");
+                        window.location.href = "index.php";
+                    }
             });
             return false;
+        });
+    };
+    var logout = function(){
+        $(document).on("click", "#logout-button", function(){
+            $.ajax({
+                type: "POST",
+                url: "../plugins/tempFunctionality/account.php",
+                cache: false,
+                data: {action: "logout"}
+            }).done(function(msg){
+                if($.trim(msg) === "SuccessfulLogout"){
+                    window.location.href = "index.php";
+                }
+            });
         });
     };
     var initModule = function($container, button, is_logged_in){
@@ -115,6 +129,7 @@ plugins.userMenu = (function(){
         stateMap.is_retracted = true;
         jqueryMap.button.attr('title', configMap.menu_retracted_label).click(onClick);
         login();
+        logout();
     };
     return {initModule : initModule};
 }());
