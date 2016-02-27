@@ -83,7 +83,7 @@ plugins.userMenu = (function(){
         return false;
     };
     var login = function(){
-        $(document).on("submit", "#loginForm", function(){
+        $(document).on("submit", "#loginForm", function(){ //Event is attached to the document because form is loaded later on the page
             //Using done() instead of success: function(result){} because success is deprecated
             $.ajax({
                 type: "POST",
@@ -118,6 +118,11 @@ plugins.userMenu = (function(){
             });
         });
     };
+    var myAccount = function(){
+        $(document).on("click", "#account-button", function(){
+            window.location.href = "login.php";
+        });
+    };
     var initModule = function($container, button, is_logged_in){
         stateMap.$container = $container;
         stateMap.button = button;
@@ -130,6 +135,7 @@ plugins.userMenu = (function(){
         jqueryMap.button.attr('title', configMap.menu_retracted_label).click(onClick);
         login();
         logout();
+        myAccount();
     };
     return {initModule : initModule};
 }());
