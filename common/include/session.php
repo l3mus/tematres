@@ -1,5 +1,5 @@
 <?php
-if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
+//if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
 #   TemaTres : aplicación para la gestión de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2013 Diego Ferreyra tematres@r020.com.ar
@@ -86,6 +86,7 @@ if($_POST[id_correo_electronico]){
 			$_SESSION[$_SESSION["CFGURL"]][ssuser_id]=$chk_user["user_id"];
 			$_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=$chk_user["nivel"];
 			$_SESSION[$_SESSION["CFGURL"]][ssuser_nombre]=$chk_user["name"];
+
 			//redirigir
 			header("Location:index.php");
 		}
