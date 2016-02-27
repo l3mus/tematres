@@ -160,26 +160,28 @@ $metadata=do_meta_tag();
 
 <?php
 //From here till the closing php tag - Login forms
-            if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
-            require_once(T3_ABSPATH . 'common/include/inc.misTerminos.php');
-            }else{
+//None of the following handles the authentication process
+if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){ //if the user is logged in
+	require_once(T3_ABSPATH . 'common/include/inc.misTerminos.php'); //My Account form
+}else{
 
-	if($_POST["task"]=='user_recovery')
+	if($_POST["task"]=='user_recovery') //When the form for forgotten password is submitted
 	{
-		$task_result=recovery($_POST["id_correo_electronico_recovery"]); //username
+		//$_POST["id_correo_electronico_recovery"] is the username field from the login form
+		$task_result=recovery($_POST["id_correo_electronico_recovery"]);
 	}
 
 
 	if ($_GET["task"]=='recovery')
 	{
-		echo HTMLformRecoveryPassword();
+		echo HTMLformRecoveryPassword(); //Form for forgotten password
 	}
 	else
 	{
 
-		if(($_POST["task"]=='login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]))
+		if(($_POST["task"]=='login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) //When Submit (Login) button is pressed with wrong credentials
 		{
-			$task_result=array("msg"=>t3_messages('no_user'));
+			$task_result=array("msg"=>t3_messages('no_user')); //Error message for wrong credentials
 		}
 		echo HTMLformLogin($task_result); //Login form
 	};
@@ -275,7 +277,7 @@ function check_password_reset_key($key, $login) {
 	$key = preg_replace('/[^a-z0-9]/i', '', $key);
 
 	if ( empty( $key ) || !is_string( $key ) )
-		return t3_messages('invalid_key'); //this function deals error with messages
+		return t3_messages('invalid_key'); //this function deals with error messages
 
 	if ( empty($login) || !is_string($login) )
 		return t3_messages('invalid_key');
