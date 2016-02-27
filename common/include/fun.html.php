@@ -585,9 +585,11 @@ function HTMLmainMenu(){
 	//Reports
 	$row.='<li><a title="'.LABEL_FORM_simpleReport.'" href="index.php?mod=csv">'.LABEL_FORM_simpleReport.'</a></li>';
 	//My Account
-	$row.='<li><a title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>';
+	//Disabled here because implemented in the new Login menu
+//	$row.='<li><a title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>';
 	//Logout
-	$row.='<li><a title="'.MENU_Salir.'" href="index.php?cmdlog='.substr(md5(date("Ymd")),"5","10").'">'.MENU_Salir.'</a></li>';
+	//Disabled here because implemented in the new Login menu
+//	$row.='<li><a title="'.MENU_Salir.'" href="index.php?cmdlog='.substr(md5(date("Ymd")),"5","10").'">'.MENU_Salir.'</a></li>';
 
 	$row.='   </ul>';
 	$row.='</li>';
