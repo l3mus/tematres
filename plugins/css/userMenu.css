@@ -44,6 +44,10 @@ li{
     margin: 20px auto;
     //background: #fff;
 }
+#account-wrapper{
+    width: 200px;
+    margin: 20px auto;
+}
 .flex-row{
     display: flex;
     flex-direction: row;
@@ -69,11 +73,14 @@ li{
     border-bottom: solid 1px #3F5D69;
     border-radius: 0 7px 7px 0;
 }
-#login-submit{
+#login-submit, #logout-button, #account-button{
     background: #3F5D69;
     border: none;
     width: 100px;
     border-radius: 7px;
+}
+#logout-button, #account-button{
+    width: 130px;
 }
 .login-submit{
     height: 40px;
