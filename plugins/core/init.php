@@ -13,7 +13,7 @@ $GLOBALS['config'] = array(
 spl_autoload_register(function($class){
     //require_once '../plugins/Plugin_classes/'.$class.'.php'; //the path depends on the calling file location - in this case user_menu_test/prototype.php
     //require_once '..'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.$class.'.php';
-    require_once '..'.DIRECTORY_SEPARATOR.$class.'.php';
+    require_once '..'.DIRECTORY_SEPARATOR.$class.'.php'; //This path works only for files located in tempFunctionality folder
     //require_once '..' . DIRECTORY_SEPARATOR . 'Plugin_classes' . DIRECTORY_SEPARATOR . $class . '.php';
 }, $throw = true, $prepend = true);
 
