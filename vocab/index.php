@@ -16,9 +16,9 @@ if(($_GET[mod]=='csv') && (substr($_GET[task],0,3)=='csv') && ($_SESSION[$_SESSI
 $search_string ='';
 $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,FORM_LABEL_buscar)) : '';
 
-require_once '..'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'init.php';
-use \Plugin_classes\DB as DBase;
-use \Plugin_classes\Config as Config;
+//require_once '..'.DIRECTORY_SEPARATOR.'plugins'.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.'init.php';
+//use \Plugin_classes\DB as DBase;
+//use \Plugin_classes\Config as Config;
 //require_once '../plugins/Plugin_classes/Config.php';
 //require_once '../plugins/Plugin_classes/DB.php';
 ?>
@@ -54,21 +54,12 @@ use \Plugin_classes\Config as Config;
  <body>
 <div>
  <?php
-
+    //Checks if there is logged in user, takes user's name from the $_SESSION and puts it in the Login section
     $buttonLabel = 'Login';
-    $user = DBase::getInstance()->query("select nombres, apellido from pr_usuario where id = " . $_SESSION['http://tematres.library.unlv.edu/vocab/']['ssuser_id']);
-    if($user->rowsCount() === 1){
-        $userName = '';
 
-        foreach($user->results() as $row){
-            foreach($row as $item=>$value){
-                $userName .= $value . ' ';
-            }
-        }
+    if(isset($_SESSION[$_SESSION["CFGURL"]][ssuser_id]) && isset($_SESSION[$_SESSION["CFGURL"]][ssuser_nombre])){
+        $buttonLabel = $_SESSION[$_SESSION["CFGURL"]][ssuser_nombre];
     }
-     if(isset($_SESSION['http://tematres.library.unlv.edu/vocab/']['ssuser_id'])){
-         $buttonLabel = $userName;
-     }
  ?>
 </div>
 <div class="container">
@@ -92,7 +83,11 @@ use \Plugin_classes\Config as Config;
         <li><a title="<?php echo LABEL_busqueda;?>" href="index.php?xsearch=1"><?php echo ucfirst(LABEL_BusquedaAvanzada);?></a></li>
 
         <li><a title="<?php echo MENU_Sobre;?>" href="sobre.php"><?php echo MENU_Sobre;?></a></li>
-        <li style="position: relative;"><a id="user_menu_link" href="#" style="color: yellow;"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo $buttonLabel; ?></a><div id="user-menu" class="user-menu"></div></li>
+        <!--Login section, not part of the original code-->
+        <li style="position: relative;">
+            <a id="user_menu_link" href="#" style="color: yellow;"><span class="glyphicon glyphicon-user"></span>&nbsp;<?php echo $buttonLabel; ?></a>
+            <div id="user-menu" class="user-menu"></div>
+        </li>
       </ul>
       <ul class="nav navbar-nav navbar-left">
         <?php
@@ -206,6 +201,9 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0)
 
         </script>
  <script type="text/javascript">
+     //Login JS code, not part of the original code
+     //added  Jan 2016
+     //created by Dimitar Georgiev: dimitar.georgiev.du@gmail.com
      var is_logged_in = '<?php echo $buttonLabel; ?>';
      plugins.initModule($('#user-menu'), $('#user_menu_link'), is_logged_in);
  </script>
