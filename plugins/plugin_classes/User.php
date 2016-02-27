@@ -6,8 +6,8 @@ class User{
     private $_result;
 
     public static function exists(){
-        if(isset($_POST['username']) && isset($_POST['password'])) {
-            if (DBase::getInstance()->query("select mail, pass form pr_usuario where mail = {$_POST['username']} and pass = {$_POST['password']}")) {
+        if((isset($_POST['username']) && isset($_POST['password'])) && (!empty($_POST['username'])) && !empty($_POST['password'])) {
+            if (DBase::getInstance()->query("select mail, pass form pr_usuario where mail = '{$_POST['username']}' and pass = '{$_POST['password']}'")) {
                 return true;
             }
         }
