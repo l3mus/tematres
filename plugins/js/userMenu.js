@@ -1,29 +1,39 @@
+/*
+* Copyright Dimitar Georgiev 2016
+* dimitar.georgiev.du@gmail.com
+* */
 plugins.userMenu = (function(){
     var configMap = {login_html : String() +
                     '<div id="login-form"><form method="post" id="loginForm">' +
                         '<ul>' +
                             '<li>' +
-    '                           <div class="flex-row">' +
-    '                               <div class="row-label">' +
-    '                                   <label for="username"><span class="glyphicon glyphicon-user label-span"></span></label>' +
-    '                               </div>' +
-    '                               <div class="row-input">' +
-    '                                   <input id="username" name="username" class="plugin-input" type="email" placeholder="Username" required/>' +
-    '                               </div>' +
-    '                           </div>' +
-    '                       </li>' +
+                                '<div class="flex-row" id="error-message"></div>' +
+                            '</li>' +
                             '<li>' +
-    '                           <div class="flex-row">' +
-    '                               <div class="row-label">' +
-    '                                   <label for="password"><span class="glyphicon glyphicon-lock label-span"></span></label>' +
-    '                               </div>' +
-    '                               <div class="row-input">' +
-    '                                   <input id="password" name="password" class="plugin-input" type="password" placeholder="Password" required/>' +
-    '                               </div>' +
-    '                           </div>' +
-    '                       </li>' +
-                            '<li><div class="flex-row login-submit"><button id="login-submit" type="submit"><i class="glyphicon glyphicon-log-in"></i>&nbsp;&nbsp;Login</button></div></li>' +
-                            //'<li><div class="flex-row login-submit"><input id="login-submit" type="submit" value="Login"></div></li>' +
+                                '<div class="flex-row">' +
+                                    '<div class="row-label">' +
+                                        '<label for="username"><span class="glyphicon glyphicon-user label-span"></span></label>' +
+                                    '</div>' +
+                                    '<div class="row-input">' +
+                                        '<input id="username" name="username" class="plugin-input" type="email" placeholder="Username" required/>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</li>' +
+                            '<li>' +
+                                '<div class="flex-row">' +
+                                    '<div class="row-label">' +
+                                        '<label for="password"><span class="glyphicon glyphicon-lock label-span"></span></label>' +
+                                    '</div>' +
+                                    '<div class="row-input">' +
+                                        '<input id="password" name="password" class="plugin-input" type="password" placeholder="Password" required/>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</li>' +
+                            '<li>' +
+                                '<div class="flex-row login-submit">' +
+                                    '<button id="login-submit" type="submit"><i class="glyphicon glyphicon-log-in"></i>&nbsp;&nbsp;Login</button>' +
+                                '</div>' +
+                            '</li>' +
                         '</ul>' +
                     '</form></div>',
                      logged_html : '<div class="flex-row login-submit"><button id="account-button"><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;My Account</button></div>' +
@@ -39,7 +49,9 @@ plugins.userMenu = (function(){
     var stateMap = {$container : null,
                     button : null,
                     is_logged_in : null,
-                    is_retracted : true
+                    is_retracted : true,
+                    error_message: false,
+                    menu_ht_error_message: 0
     };
     var jqueryMap = {};
 
@@ -51,8 +63,11 @@ plugins.userMenu = (function(){
         };
     };
     var toggleMenu = function(do_extend){
+        //if(stateMap.error_message){
+            //stateMap.menu_ht_error_message = $("#error-message").height();
+        //}
         var menu_ht_px = jqueryMap.$container.height();
-        var is_menu_open = menu_ht_px === (configMap.menu_ht_extended - 2); //subtract 2 because of the border
+        var is_menu_open = menu_ht_px === (configMap.menu_ht_extended - 2 + stateMap.menu_ht_error_message); //subtract 2 because of the border
         var is_menu_closed = menu_ht_px === configMap.menu_ht_retracted;
         var is_sliding = !is_menu_open && !is_menu_closed;
 
@@ -75,6 +90,7 @@ plugins.userMenu = (function(){
             jqueryMap.button.attr('title', configMap.menu_retracted_label);
             stateMap.is_retracted = true;
             jqueryMap.$container.html('');
+            stateMap.menu_ht_error_message = 0;
         });
         return true;
     };
@@ -97,8 +113,16 @@ plugins.userMenu = (function(){
                 }}).done(function(msg){
                     //alert(msg);
                     if($.trim(msg) === "SuccessfulLogin"){ //Without trim() comparison fails
-                        //alert("OK");
                         window.location.href = "index.php";
+                    }else{
+                        $("#loginForm").trigger("reset");
+
+                        $("#error-message").show().html("Wrong Username / Password");
+                        stateMap.menu_ht_error_message = $("#error-message").outerHeight(true);
+                        var menu_ht_recalculated = configMap.menu_ht_extended + stateMap.menu_ht_error_message;
+                        jqueryMap.$container.css("height", menu_ht_recalculated);
+                        stateMap.error_message = true; //currently not in use
+                        //alert($("#error-message").height());
                     }
             });
             return false;
